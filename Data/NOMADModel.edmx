@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="NOMADModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'NOMAD.dbo.fitment' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="fitment">
+          <Key>
+            <PropertyRef Name="part_id" />
+            <PropertyRef Name="vehicle_id" />
+          </Key>
+          <Property Name="part_id" Type="bigint" Nullable="false" />
+          <Property Name="vehicle_id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="parts">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="part_number" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="part_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="description" Type="text" Nullable="false" />
+          <Property Name="img_url" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vehicles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="make" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="model" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="year" Type="date" Nullable="false" />
+          <Property Name="trim" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_fitment_parts1">
+          <End Role="parts" Type="Self.parts" Multiplicity="1" />
+          <End Role="fitment" Type="Self.fitment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="parts">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="fitment">
+              <PropertyRef Name="part_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NOMADModelStoreContainer">
+          <EntitySet Name="parts" EntityType="Self.parts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vehicles" EntityType="Self.vehicles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="fitment" EntityType="Self.fitment" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [fitment].[part_id] AS [part_id], 
+    [fitment].[vehicle_id] AS [vehicle_id]
+    FROM [dbo].[fitment] AS [fitment]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_fitment_parts1" Association="Self.FK_fitment_parts1">
+            <End Role="parts" EntitySet="parts" />
+            <End Role="fitment" EntitySet="fitment" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NOMADModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="part">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="part_number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="part_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="img_url" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="fitments" Relationship="Self.FK_fitment_parts1" FromRole="parts" ToRole="fitment" />
+        </EntityType>
+        <EntityType Name="vehicle">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="make" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="model" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="year" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="trim" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="fitment">
+          <Key>
+            <PropertyRef Name="part_id" />
+            <PropertyRef Name="vehicle_id" />
+          </Key>
+          <Property Name="part_id" Type="Int64" Nullable="false" />
+          <Property Name="vehicle_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="part" Relationship="Self.FK_fitment_parts1" FromRole="fitment" ToRole="parts" />
+        </EntityType>
+        <Association Name="FK_fitment_parts1">
+          <End Role="parts" Type="Self.part" Multiplicity="1" />
+          <End Role="fitment" Type="Self.fitment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="parts">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="fitment">
+              <PropertyRef Name="part_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NOMADEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="parts" EntityType="Self.part" />
+          <EntitySet Name="vehicles" EntityType="Self.vehicle" />
+          <EntitySet Name="fitments" EntityType="Self.fitment" />
+          <AssociationSet Name="FK_fitment_parts1" Association="Self.FK_fitment_parts1">
+            <End Role="parts" EntitySet="parts" />
+            <End Role="fitment" EntitySet="fitments" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NOMADModelStoreContainer" CdmEntityContainer="NOMADEntities">
+          <EntitySetMapping Name="parts">
+            <EntityTypeMapping TypeName="NOMADModel.part">
+              <MappingFragment StoreEntitySet="parts">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="part_number" ColumnName="part_number" />
+                <ScalarProperty Name="part_name" ColumnName="part_name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="img_url" ColumnName="img_url" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vehicles">
+            <EntityTypeMapping TypeName="NOMADModel.vehicle">
+              <MappingFragment StoreEntitySet="vehicles">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="make" ColumnName="make" />
+                <ScalarProperty Name="model" ColumnName="model" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="trim" ColumnName="trim" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fitments">
+            <EntityTypeMapping TypeName="NOMADModel.fitment">
+              <MappingFragment StoreEntitySet="fitment">
+                <ScalarProperty Name="part_id" ColumnName="part_id" />
+                <ScalarProperty Name="vehicle_id" ColumnName="vehicle_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
