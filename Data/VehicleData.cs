@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Data.db;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -9,23 +10,23 @@ namespace Data
 {
 	public class VehicleData
 	{
-		public vehicle GetVehicle(int id)
+		public Vehicles GetVehicle(int id)
 		{
-			vehicle result;
-			using (var db = new NOMADEntities())
+			Vehicles result;
+			using (var db = new NOMADContext())
 			{
-				var q = from v in db.vehicles where v.id == id select v;
+				var q = from v in db.DBVehicles where v.id == id select v;
 				result = q.FirstOrDefault();
 			}
 
 			return result;
 		}
 
-		public vehicle add(vehicle v)
+		public Vehicles add(Vehicles v)
 		{
-			using (var db = new NOMADEntities())
+			using (var db = new NOMADContext())
 			{
-				db.vehicles.Add(v);
+				db.DBVehicles.Add(v);
 				db.SaveChanges();
 			}
 

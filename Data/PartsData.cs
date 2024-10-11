@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Data.db;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,15 +9,16 @@ namespace Data
 {
 	public class PartsData
 	{
+
 		public PartsData() { }
 
-		public part GetPart(int id)
+		public Parts GetPart(int id)
 		{
-			part result = null;
+			Parts result = null;
 
-			using (var db = new NOMADEntities())
+			using (var db = new NOMADContext())
 			{
-				var res = from p in db.parts
+				var res = from p in db.DBParts
 						  where p.id == id
 						  select p;
 
@@ -26,17 +28,16 @@ namespace Data
 			return result;
 		}
 
-		public part Add(part p)
+		public Parts Add(Parts p)
 		{
-			part result = null;
-
-			using (var db = new NOMADEntities())
+			
+			using (var db = new NOMADContext())
 			{
-				db.parts.Add(p);
+				db.DBParts.Add(p);
 				db.SaveChanges();
 			}
 
-			return result;
+			return p;
 		}
 	}
 }

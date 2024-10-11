@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -11,10 +12,9 @@ namespace API.Controllers
     public class VehiclesController : ApiController
     {
         VerhicleService service = new VerhicleService();
-        public String Get(int id)
+        public HttpResponseMessage Get(int id)
         {
-            String result = service.getVehicle(id);
-            return result;
+            return service.getVehicle(id);
 
         }
 

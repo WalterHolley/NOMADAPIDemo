@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 using System.Threading.Tasks;
 using Data;
+using Data.db;
 
 namespace ServiceDomain
 {
@@ -16,11 +19,19 @@ namespace ServiceDomain
             vehicleData = new VehicleData();
         }
 
-        public String getVehicle(int vehicleId)
+        public HttpResponseMessage getVehicle(int vehicleId)
         {
-            String result;
-
-            result = JsonSerializer.Serialize(vehicleData.GetVehicle(vehicleId));
+            HttpResponseMessage result;
+    
+            try
+            {
+                Vehicles v = vehicleData.GetVehicle(vehicleId);
+                result = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(JsonSerializer.Serialize(v))};
+            }
+            catch(Exception e) 
+            {
+                result = new HttpResponseMessage(HttpStatusCode.InternalServerError) { Content = new StringContent(e.Message)};
+            }
         
 
            return result;
@@ -28,7 +39,7 @@ namespace ServiceDomain
 
         public String CreateVehicle(String vehicleRequest)
         {
-            vehicle v = vehicleData.add(JsonSerializer.Deserialize<vehicle>(vehicleRequest));
+            Vehicles v = vehicleData.add(JsonSerializer.Deserialize<Vehicles>(vehicleRequest));
             return JsonSerializer.Serialize(v);
         }
     }
