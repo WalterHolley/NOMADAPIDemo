@@ -6,23 +6,34 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
+using System.Threading;
+using System.Web.WebPages;
+using ServiceDomain.models;
+using System.Web.Helpers;
+
 
 namespace API.Controllers
 {
     public class VehiclesController : ApiController
     {
         VerhicleService service = new VerhicleService();
-        public HttpResponseMessage Get(int id)
+        public HttpResponseMessage GetVehicle(int id)
         {
             return service.getVehicle(id);
 
         }
 
 
+
+
         // POST: Vehicles/
-        public String Post([FromBody] String request)
+ 
+        public HttpResponseMessage Post([FromBody]VehicleModel request)
         {
-            return service.CreateVehicle(request);
+            HttpResponseMessage response;
+            response = service.CreateVehicle(request);
+			
+            return response;
         }
 
 
