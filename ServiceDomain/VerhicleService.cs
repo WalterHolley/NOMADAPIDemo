@@ -39,15 +39,17 @@ namespace ServiceDomain
            return result;
         }
 
-        public HttpResponseMessage UpdateVehicle(Vehicles v)
+        public HttpResponseMessage UpdateVehicle(VehicleModel vehicleRequest)
         {
             HttpResponseMessage result;
 
             try
             {
-                result = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(JsonSerializer.Serialize(vehicleData.update(v))) };
+				Vehicles v = new Vehicles { id = vehicleRequest.id, make = vehicleRequest.make, model = vehicleRequest.model, trim = vehicleRequest.trim, year = vehicleRequest.year };
+                v = vehicleData.update(v);
+				result = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent("Success") };
             }
-            catch (ArgumentNullException e)
+            catch (ArgumentException e)
             {
                 result = new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent(e.Message)};
             }

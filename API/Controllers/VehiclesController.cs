@@ -36,6 +36,14 @@ namespace API.Controllers
             return response;
         }
 
+        public HttpResponseMessage Put([FromBody] VehicleModel request)
+        {
+            HttpResponseMessage response;
+            response = service.UpdateVehicle(request);
+
+            return response;
+        }
+
 
         // DELETE: Vehicles/5
         /*
