@@ -45,21 +45,14 @@ namespace API.Controllers
         }
 
 
-        // DELETE: Vehicles/5
-        /*
-        public String Delete(int id)
+        
+        public HttpResponseMessage Delete(int id)
         {
-            try
-            {
-                // TODO: Add update logic here
 
-            }
-            catch
-            {
-       
-            }
+            return service.DeleteVehicle(id);
+
         }
-        */
+        
 
     }
 }

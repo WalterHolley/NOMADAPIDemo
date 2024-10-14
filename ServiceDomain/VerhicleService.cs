@@ -83,6 +83,34 @@ namespace ServiceDomain
             return result;
         }
 
+        public HttpResponseMessage DeleteVehicle(int id)
+        {
+            HttpResponseMessage result;
+
+            try
+            {
+                if (id <= 0)
+                {
+                    result = new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent("Bad Request: Vehicle not found") };
+                }
+                else
+                {
+                    vehicleData.delete(id);
+                    result = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent("Success") };
+                }
+            }
+            catch (ArgumentNullException e)
+            {
+				result = new HttpResponseMessage(HttpStatusCode.BadRequest) { Content = new StringContent(e.Message) };
+			}
+            catch (Exception e)
+            {
+				result = new HttpResponseMessage(HttpStatusCode.InternalServerError) { Content = new StringContent(e.Message) };
+			}
+
+            return result;
+        }
+
         public HttpResponseMessage FindVehicle(Vehicles vehicle)
         {
             HttpResponseMessage result;

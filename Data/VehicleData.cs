@@ -72,6 +72,16 @@ namespace Data
 			return veh;
 		}
 
+		public void delete(int id)
+		{
+			using (var db = new NOMADContext())
+			{
+				var q = from v in db.DBVehicles where v.id == id select v;
+				db.DBVehicles.Remove(q.First());
+				db.SaveChanges();
+			}
+		}
+
 
 
 		//TODO:  List retrieval w/paging?
