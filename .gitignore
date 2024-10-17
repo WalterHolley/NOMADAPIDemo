@@ -361,3 +361,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/API/Properties/ServiceDependencies/NOMAD-DEMO-API - Web Deploy/profile.arm.json
