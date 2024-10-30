@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<div id="header"></div>
+<div id="nav"><a href="#" onclick="goHome()" id="navHome">Home</a> | <a href="#" onclick="goVehicles()" id="navVeh">Vehicles</a> | <a href="#" onclick="goParts()" id="navParts">Parts</a>	
+<div id="content">
+<div id="home">
+	<h2>Home</h2>
+	Welcome Home!  There's nothing here
+</div>
+	<div id="vehicles">
+		<h2>Vehicles</h2>
+		<div id="vehNav"><a href="#" onclick="openVehFind()">Find</a> | <a href="#" onclick="openVehCreate()">Create</a></div>
+		<div id="vehContent">
+
+
+		</div>
+	</div>
+	<div id="parts">
+		<h2>Parts</h2>
+		<div id="partsNav"><a href="#" onclick="openPartsFind()">Find</a> | <a href="#" onclick="openPartsCreate()">Create</a></div>
+		<div id="partsContent">
+
+		</div>
+	</div>
+</div>
+<div id="footer"></div>
+
+	<template>
+		<div class="part-add-new">
+			<label>Name: </label><input type="text" id="fvMake">
+			<label>Description: </label><input type="text" id="pfDescription">
+			<label>Part Number:</label><input type="text" id="pfPartNumber">
+			<button onClick="">Add</button>
+		</div>
+	</template>
+	<template>
+		<div class="part-find">
+			<label>Name: </label><input type="text" id="fvMake">
+			<label>Description: </label><input type="text" class="pfDescription">
+			<label>Part Number:</label><input type="text" class="pfPartNumber">
+			<button onclick="">Search</button>
+		</div>
+	</template>
+	<template>
+		<div class="veh-add-new">
+			<label>Make: </label><input type="text" id="av-make">
+			<label>Model: </label><input type="text" id="av-model">
+			<label>Year:</label><input type="text" id="av-year">
+			<label>Trim: </label><input type="text" class="av-trim">
+			<button id="btnVSearch">Add</button>
+		</div>
+	</template>
+	<template>
+		<div class="veh-search">
+			<label>Make: </label><input type="text" id="fvMake">
+			<label>Model: </label><input type="text" id="fvModel">
+			<label>Year:</label><input type="text" id="fvYear">
+			<button ">Search</button>
+		</div>
+		<div class="veh-search-result">
+			<table>
+				<tr>
+					<td><label class="status"></label></td>
+				</tr>
+			</table>
+		</div>
+	</template>
+	<template></template>
+	
+<script src="index.js" type="text/javascript"></script>
+</body>
+
+</html>
